@@ -6,6 +6,8 @@ import { setPaymentLoading } from "../../slices/courseSlice"
 import { apiConnector } from "../apiConnector"
 import { studentEndpoints } from "../apis"
 
+const RazorpayKey = process.env.REACT_APP_RAZORPAY_KEY_ID
+
 const {
   COURSE_PAYMENT_API,
   COURSE_VERIFY_API,
@@ -66,7 +68,7 @@ export async function BuyCourse(
 
     // Opening the Razorpay SDK
     const options = {
-      key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+      key: RazorpayKey,
       currency: orderResponse.data.data.currency,
       amount: `${orderResponse.data.data.amount}`,
       order_id: orderResponse.data.data.id,

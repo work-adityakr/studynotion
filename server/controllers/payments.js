@@ -1,4 +1,4 @@
-const { instance } = require("../config/razorpay")
+// const { instance } = require("../config/razorpay")
 const Course = require("../models/Course")
 const crypto = require("crypto")
 const User = require("../models/User")
@@ -9,7 +9,8 @@ const {
 } = require("../mail/templates/courseEnrollmentEmail")
 const { paymentSuccessEmail } = require("../mail/templates/paymentSuccessEmail")
 const CourseProgress = require("../models/CourseProgress")
-
+  const Razorpay = require("razorpay");
+  
 // Capture the payment and initiate the Razorpay order
 exports.capturePayment = async (req, res) => {
   const { courses } = req.body
@@ -52,11 +53,18 @@ exports.capturePayment = async (req, res) => {
   const options = {
     amount: total_amount * 100,
     currency: "INR",
-    receipt: Math.random(Date.now()).toString(),
+    receipt: `receipt_order_${Date.now()}`,
+
   }
+
+  const instance = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY,
+    key_secret: process.env.RAZORPAY_SECRET,
+  });
 
   try {
     // Initiate the payment using Razorpay
+console.log("instance",instance)
     const paymentResponse = await instance.orders.create(options)
     console.log(paymentResponse)
     res.json({

@@ -17,12 +17,11 @@ export default function Upload({
   editData = null,
 }) {
   const { course } = useSelector((state) => state.course)
-
   const [selectedFile, setSelectedFile] = useState(null)
   const [previewSource, setPreviewSource] = useState(
     viewData ? viewData : editData ? editData : ""
   )
-  const [inputKey, setInputKey] = useState(0) // force-remount <input> to clear same-file selections
+  const [inputKey, setInputKey] = useState(0)
   const inputRef = useRef(null)
 
   const previewFile = (file) => {
@@ -39,13 +38,12 @@ export default function Upload({
     }
   }
 
-  // Use controlled open() to avoid any click conflicts
+  // ✅ Allow both click + drag
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     accept: video ? { "video/*": [] } : { "image/*": [] },
     multiple: false,
     onDrop,
-    noClick: true,      // we'll control click with open()
-    noKeyboard: true,   // we'll add our own handler
+    noKeyboard: true,
   })
 
   useEffect(() => {
@@ -63,7 +61,7 @@ export default function Upload({
     setPreviewSource("")
     setSelectedFile(null)
     setValue?.(name, null)
-    setInputKey((k) => k + 1) // reset file input
+    setInputKey((k) => k + 1)
   }
 
   return (
@@ -72,22 +70,14 @@ export default function Upload({
         {label} {!viewData && <sup className="text-pink-200">*</sup>}
       </label>
 
-      {/* Root: handles drag events; click/keyboard explicitly call open() */}
+      {/* ✅ Dropzone area — click and drag both work */}
       <div
-        {...getRootProps()}
-        onClick={open}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault()
-            open()
-          }
-        }}
-        tabIndex={0}
-        className={`${
-          isDragActive ? "bg-richblack-600" : "bg-richblack-700"
-        } flex min-h-[250px] cursor-pointer items-center justify-center rounded-md border-2 border-dotted border-richblack-500 outline-none`}
+        {...getRootProps({
+          className: `${
+            isDragActive ? "bg-richblack-600" : "bg-richblack-700"
+          } flex min-h-[250px] cursor-pointer items-center justify-center rounded-md border-2 border-dotted border-richblack-500 transition-all`,
+        })}
       >
-        {/* Hidden input — always present */}
         <input key={inputKey} {...getInputProps()} ref={inputRef} />
 
         {previewSource ? (
@@ -122,8 +112,8 @@ export default function Upload({
                 role="button"
                 className="font-semibold text-yellow-50 underline"
                 onClick={(e) => {
-                  e.stopPropagation()
-                  open()
+                  e.preventDefault()
+                  open() // ✅ now always works
                 }}
               >
                 Browse
