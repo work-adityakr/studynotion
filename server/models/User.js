@@ -7,12 +7,10 @@ const userSchema = new mongoose.Schema(
     // Define the name field with type String, required, and trimmed
     firstName: {
       type: String,
-      required: true,
       trim: true,
     },
     lastName: {
       type: String,
-      required: true,
       trim: true,
     },
     // Define the email field with type String, required, and trimmed
@@ -25,8 +23,12 @@ const userSchema = new mongoose.Schema(
     // Define the password field with type String and required
     password: {
       type: String,
-      required: true,
     },
+
+    googleId:{
+      type:String,
+    },
+    
     // Define the role field with type String and enum values of "Admin", "Student", or "Visitor"
     accountType: {
       type: String,
@@ -43,8 +45,8 @@ const userSchema = new mongoose.Schema(
     },
     additionalDetails: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
       ref: "Profile",
+      required :true,
     },
     courses: [
       {

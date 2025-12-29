@@ -85,10 +85,11 @@ export default function CourseReviewModal({ setReviewModal }) {
                 Add Your Experience <sup className="text-pink-200">*</sup>
               </label>
               <textarea
+                // REMOVED type="text" HERE
                 id="courseExperience"
                 placeholder="Add Your Experience"
                 {...register("courseExperience", { required: true })}
-                className="form-style resize-x-none min-h-[130px] w-full"
+                className="form-style resize-x-none min-h-[130px] w-full p-3"
               />
               {errors.courseExperience && (
                 <span className="ml-2 text-xs tracking-wide text-pink-200">

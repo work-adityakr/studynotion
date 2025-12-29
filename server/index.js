@@ -14,6 +14,9 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const { cloudinaryConnect } = require("./config/cloudinary");
 const fileUpload = require("express-fileupload");
+const  authRoutes =require("./routes/authRoute")
+
+require("./config/passport.js"); 
 
 // Setting up port number
 const PORT = process.env.PORT || 4000;
@@ -44,6 +47,7 @@ app.use(
 cloudinaryConnect();
 
 // Setting up routes
+app.use("/auth",authRoutes)
 app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/profile", profileRoutes);
 app.use("/api/v1/course", courseRoutes);

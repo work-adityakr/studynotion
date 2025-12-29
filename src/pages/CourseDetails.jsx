@@ -4,7 +4,7 @@ import { HiOutlineGlobeAlt } from "react-icons/hi"
 import { ReactMarkdown } from "react-markdown/lib/react-markdown"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
-
+import { addToCart } from "../slices/cartSlice"
 import ConfirmationModal from "../components/Common/ConfirmationModal"
 import Footer from "../components/Common/Footer"
 import RatingStars from "../components/Common/RatingStars"
@@ -26,17 +26,14 @@ function CourseDetails() {
 
   // Getting courseId from url parameter
   const { courseId } = useParams()
-  // console.log(`course id: ${courseId}`)
 
   // Declear a state to save the course details
   const [response, setResponse] = useState(null)
   const [confirmationModal, setConfirmationModal] = useState(null)
   useEffect(() => {
-    // Calling fetchCourseDetails fucntion to fetch the details
     ;(async () => {
       try {
         const res = await fetchCourseDetails(courseId)
-        // console.log("course details res: ", res)
         setResponse(res)
       } catch (error) {
         console.log("Could not fetch Course Details")
@@ -62,7 +59,7 @@ function CourseDetails() {
     setIsActive(
       !isActive.includes(id)
         ? isActive.concat([id])
-        : isActive.filter((e) => e != id)
+        : isActive.filter((e) => e !==id)
     )
   }
 
@@ -88,7 +85,6 @@ function CourseDetails() {
   }
 
   const {
-    _id: course_id,
     courseName,
     courseDescription,
     thumbnail,
@@ -177,7 +173,7 @@ function CourseDetails() {
               <button className="yellowButton" onClick={handleBuyCourse}>
                 Buy Now
               </button>
-              <button className="blackButton">Add to Cart</button>
+              <button onClick={()=> dispatch(addToCart(response?.data?.courseDetails))} className="blackButton">Add to Cart</button>
             </div>
           </div>
           {/* Courses Card */}

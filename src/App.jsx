@@ -34,6 +34,7 @@ import VerifyEmail from "./pages/VerifyEmail"
 import ViewCourse from "./pages/ViewCourse"
 import { getUserDetails } from "./services/operations/profileAPI"
 import { ACCOUNT_TYPE } from "./utils/constants"
+import AuthSuccess from "./components/core/Auth/AuthSuccess"
 
 function App() {
   const dispatch = useDispatch()
@@ -63,6 +64,14 @@ function App() {
           element={
             <OpenRoute>
               <Login />
+            </OpenRoute>
+          }
+        />
+         <Route
+          path="auth-success"
+          element={
+            <OpenRoute>
+              <AuthSuccess />
             </OpenRoute>
           }
         />

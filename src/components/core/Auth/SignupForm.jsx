@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
+import { FcGoogle } from "react-icons/fc";
+
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
@@ -15,6 +17,8 @@ function SignupForm() {
 
   // student or instructor
   const [accountType, setAccountType] = useState(ACCOUNT_TYPE.STUDENT)
+
+  const [account,setAccount] = useState(false);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -188,6 +192,40 @@ function SignupForm() {
           Create Account
         </button>
       </form>
+<div className="w-full mt-6">
+  {!account ? (
+    <button
+      onClick={() => setAccount(true)}
+      className="flex w-full items-center justify-center gap-x-2 rounded-lg border border-richblack-100 bg-richblack-50 px-[12px] py-[10px] text-richblack-900 font-medium transition-all duration-200 hover:bg-richblack-100 hover:shadow-md active:scale-95"
+    >
+      <FcGoogle className="text-xl" />
+      <span>Login with Google</span>
+    </button>
+  ) : (
+    <div className="flex w-full animate-in fade-in zoom-in duration-200 gap-x-4">
+      <button
+        onClick={() => window.open("http://localhost:4000/auth/google?type=Student", "_self")}
+        className="flex flex-1 items-center justify-center rounded-lg bg-richblack-900 px-[12px] py-[10px] font-medium text-white transition-all duration-200 hover:bg-richblack-500 hover:shadow-lg active:scale-95"
+      >
+        Student
+      </button>
+
+      <button
+        onClick={() => window.open("http://localhost:4000/auth/google?type=Instructor", "_self")}
+        className="flex flex-1 items-center justify-center rounded-lg bg-richblack-900 px-[12px] py-[10px] font-medium text-white transition-all duration-200 hover:bg-richblack-500 hover:shadow-lg active:scale-95"
+      >
+        Instructor
+      </button>
+      
+      <button 
+        onClick={() => setAccount(false)}
+        className="flex items-center justify-center px-3 text-richblack-400 hover:text-richblack-900"
+      >
+        ✕
+      </button>
+    </div>
+  )}
+</div>
     </div>
   )
 }

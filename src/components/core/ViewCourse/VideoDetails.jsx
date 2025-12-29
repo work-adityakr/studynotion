@@ -26,7 +26,7 @@ const VideoDetails = () => {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    ;(async () => {
+    const setVideoSpecificDetails = async () => {
       if (!courseSectionData.length) return
       if (!courseId && !sectionId && !subSectionId) {
         navigate(`/dashboard/enrolled-courses`)
@@ -44,8 +44,11 @@ const VideoDetails = () => {
         setPreviewSource(courseEntireData.thumbnail)
         setVideoEnded(false)
       }
-    })()
-  }, [courseSectionData, courseEntireData, location.pathname])
+    }
+    setVideoSpecificDetails()
+    
+    // ADDED THE MISSING DEPENDENCIES HERE:
+  }, [courseSectionData, courseEntireData, location.pathname, courseId, sectionId, subSectionId, navigate])
 
   // check if the lecture is the first video of the course
   const isFirstVideo = () => {

@@ -21,7 +21,7 @@ export default function PublishCourse() {
     if (course?.status === COURSE_STATUS.PUBLISHED) {
       setValue("public", true)
     }
-  }, [])
+  }, [course?.status,setValue])
 
   const goBack = () => {
     dispatch(setStep(2))
@@ -59,7 +59,6 @@ export default function PublishCourse() {
   }
 
   const onSubmit = (data) => {
-    // console.log(data)
     handleCoursePublish()
   }
 
